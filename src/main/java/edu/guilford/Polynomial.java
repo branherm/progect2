@@ -110,15 +110,36 @@ class Polynomial implements Comparable<Polynomial> {
     }
     
     // CompareTo method
-    public int compareTo(Polynomial other) {
-        if (this.degree > other.degree) return 1;
-        if (this.degree < other.degree) return -1;
-        
-        for (int i = degree; i >= 0; i--) {
-            if (this.coefficients[i] > other.coefficients[i]) return 1;
-            if (this.coefficients[i] < other.coefficients[i]) return -1;
+    @Override
+public int compareTo(Polynomial other) {
+    // Step 1: Compare degrees
+    if (this.degree > other.degree) return 1;
+    if (this.degree < other.degree) return -1;
+
+    // Step 2: Compare coefficients (if degrees are the same)
+    boolean allEqual = true;
+    for (int i = degree; i >= 0; i--) {
+        if (this.coefficients[i] != other.coefficients[i]) {
+            allEqual = false;
+            break;
         }
-        
-        return 0;
     }
+    if (allEqual) return 0;
+
+    // Step 3: Compare evaluation at x = 1
+    double thisAt1 = this.evaluate(1);
+    double otherAt1 = other.evaluate(1);
+    if (thisAt1 > otherAt1) return 1;
+    if (thisAt1 < otherAt1) return -1;
+
+    // Step 4: Compare evaluation at x = -1
+    double thisAtNeg1 = this.evaluate(-1);
+    double otherAtNeg1 = other.evaluate(-1);
+    if (thisAtNeg1 > otherAtNeg1) return 1;
+    if (thisAtNeg1 < otherAtNeg1) return -1;
+
+    // If needed, more tie-breaking steps could be added here
+    return 0;
+}
+
 }
