@@ -2,6 +2,13 @@ package edu.guilford;
 
 import java.util.*;
 
+/**
+ * The PolynomialDriver class tests the functionality of the Polynomial class.
+ * It includes operations such as addition, subtraction, evaluation, sorting, and searching.
+ *
+ * @author Brandon Hermes
+ * @version 1.0
+ */
 public class PolynomialDriver {
     public static void main(String[] args) {
         // Test constructors
@@ -39,41 +46,107 @@ public class PolynomialDriver {
         System.out.println("P2 evaluated at " + x + ": " + p2.evaluate(x));
         System.out.println();
 
-        // Test compareTo method
-        System.out.println("Testing CompareTo:");
-        System.out.println("P1 compared to P2: " + p1.compareTo(p2));
-        System.out.println("P2 compared to P1: " + p2.compareTo(p1));
-        System.out.println("P1 compared to P3 (should be 0): " + p1.compareTo(p3));
-        System.out.println();
+        // Test sorting algorithms
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of polynomials to generate: ");
+        int numPolynomials = scanner.nextInt();
+        scanner.close();
+    }
 
-        // Test random polynomial creation
-        Polynomial randomPoly = new Polynomial(5);
-        System.out.println("Testing Random Polynomial:");
-        System.out.println("Random Polynomial: " + randomPoly);
-        System.out.println();
-
-        // Test sorting a list of polynomials
-        System.out.println("Testing Sorting of Polynomials:");
-        List<Polynomial> polynomials = new ArrayList<>();
-        polynomials.add(new Polynomial(3));
-        polynomials.add(new Polynomial(2));
-        polynomials.add(new Polynomial(4));
-        polynomials.add(new Polynomial(1));
-        polynomials.add(new Polynomial(5));
-
-        // Display Unsorted List
-        System.out.println("Unsorted Polynomials:");
-        for (Polynomial p : polynomials) {
-            System.out.println(p);
+    /**
+     * Sorts a list of polynomials using selection sort.
+     *
+     * @param list the list of polynomials to be sorted
+     */
+    public static void selectionSort(List<Polynomial> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < list.size(); j++) {
+                if (list.get(j).compareTo(list.get(minIndex)) < 0) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                Collections.swap(list, i, minIndex);
+            }
         }
+    }
 
-        // Sort the polynomials using compareTo()
-        Collections.sort(polynomials);
-
-        // Display Sorted List
-        System.out.println("\nSorted Polynomials:");
-        for (Polynomial p : polynomials) {
-            System.out.println(p);
+    /**
+     * Sorts a list of polynomials using quicksort.
+     *
+     * @param list the list of polynomials to be sorted
+     * @param low  the starting index
+     * @param high the ending index
+     */
+    public static void quickSort(List<Polynomial> list, int low, int high) {
+        if (low < high) {
+            int partitionIndex = partition(list, low, high);
+            quickSort(list, low, partitionIndex - 1);
+            quickSort(list, partitionIndex + 1, high);
         }
+    }
+
+    /**
+     * Partitions the list for quicksort.
+     *
+     * @param list the list to be partitioned
+     * @param low  the starting index
+     * @param high the ending index
+     * @return the partition index
+     */
+    public static int partition(List<Polynomial> list, int low, int high) {
+        Polynomial pivot = list.get(high);
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (list.get(j).compareTo(pivot) <= 0) {
+                i++;
+                Collections.swap(list, i, j);
+            }
+        }
+        Collections.swap(list, i + 1, high);
+        return i + 1;
+    }
+
+    /**
+     * Performs a sequential search for a polynomial in a list.
+     *
+     * @param list   the list of polynomials
+     * @param target the polynomial to search for
+     * @return the index of the polynomial if found, otherwise -1
+     */
+    public static int sequentialSearch(List<Polynomial> list, Polynomial target) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).compareTo(target) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Performs a binary search for a polynomial in a sorted list.
+     *
+     * @param list   the sorted list of polynomials
+     * @param target the polynomial to search for
+     * @return the index of the polynomial if found, otherwise -1
+     */
+    public static int binarySearch(List<Polynomial> list, Polynomial target) {
+        int low = 0;
+        int high = list.size() - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int comparison = list.get(mid).compareTo(target);
+
+            if (comparison == 0) {
+                return mid;
+            } else if (comparison < 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return -1;
     }
 }
