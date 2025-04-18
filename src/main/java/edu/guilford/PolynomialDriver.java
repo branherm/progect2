@@ -1,224 +1,196 @@
 package edu.guilford;
 
-import java.util.*;
+import java.util.Scanner;
 
 public class PolynomialDriver {
-    public static void main(String[] args) {
-        // Test constructors
-        double[] coeffs1 = { 1.0, 2.5, 3.3, 4.6 };
-        Polynomial p1 = new Polynomial(coeffs1);
 
-        double[] coeffs2 = { 4.1, 5.6, 6.8 };
-        Polynomial p2 = new Polynomial(coeffs2);
+   public static void main(String[] args) {
+      double[] coeff1 = { 1.0, 2.5, 3.3, 4.6 };
+      Polynomial p1 = new Polynomial(coeff1);
+      double[] coeff2 = { 4.1, 5.6, 6.8 };
+      Polynomial p2 = new Polynomial(coeff2);
+      Polynomial p3 = p1.add(p2);
 
-        double[] coeffs3 = { 1.0, 2.5, 3.3, 4.6 }; // Same as p1 to check equality
-        Polynomial p3 = new Polynomial(coeffs3);
+      // print the toString method
 
-        System.out.println("Testing Polynomial Constructors:");
-        System.out.println("Polynomial 1: " + p1);
-        System.out.println("Polynomial 2: " + p2);
-        System.out.println("Polynomial 3 (same as Polynomial 1): " + p3);
-        System.out.println();
+      System.out.println(p1.toString());
 
-        // Test addition
-        Polynomial sum = p1.add(p2);
-        System.out.println("Testing Addition:");
-        System.out.println("P1 + P2 = " + sum);
-        System.out.println();
+      System.out.println(p2.toString());
 
-        // Test subtraction
-        Polynomial difference = p1.subtract(p2);
-        System.out.println("Testing Subtraction:");
-        System.out.println("P1 - P2 = " + difference);
-        System.out.println();
+      System.out.println(p3.toString());
 
-        // Test evaluation
-        double x = 2.0;
-        System.out.println("Testing Evaluation:");
-        System.out.println("P1 evaluated at " + x + ": " + p1.evaluate(x));
-        System.out.println("P2 evaluated at " + x + ": " + p2.evaluate(x));
-        System.out.println();
+      // print the evaluate method
 
-        // Test compareTo method
-        System.out.println("Testing CompareTo:");
-        System.out.println("P1 compared to P2: " + p1.compareTo(p2));
-        System.out.println("P2 compared to P1: " + p2.compareTo(p1));
-        System.out.println("P1 compared to P3 (should be 0): " + p1.compareTo(p3));
-        System.out.println();
+      System.out.println(p1.evaluate(1));
 
-        // Test random polynomial creation
-        Polynomial randomPoly = new Polynomial(5);
-        System.out.println("Testing Random Polynomial:");
-        System.out.println("Random Polynomial: " + randomPoly);
-        System.out.println();
+      System.out.println(p2.evaluate(2));
 
-        // Test sorting a list of polynomials
-        System.out.println("Testing Sorting of Polynomials:");
-        List<Polynomial> randomPolynomials = new ArrayList<>();
-        randomPolynomials.add(new Polynomial(3));
-        randomPolynomials.add(new Polynomial(2));
-        randomPolynomials.add(new Polynomial(4));
-        randomPolynomials.add(new Polynomial(1));
-        randomPolynomials.add(new Polynomial(5));
+      // print the add method
 
-        // Display Unsorted List
-        System.out.println("Unsorted Polynomials:");
-        for (Polynomial p : randomPolynomials) {
-            System.out.println(p);
-        }
+      System.out.println(p1.add(p2));
 
-        // Sort the polynomials using compareTo()
-        Collections.sort(randomPolynomials);
+      // print the subtract method
 
-        // Display Sorted List
-        System.out.println("\nSorted Polynomials (after Collections.sort):");
-        for (Polynomial p : randomPolynomials) {
-            System.out.println(p);
-        }
+      System.out.println(p1.subtract(p2));
 
-        // Sequential Search
-        System.out.println("Testing Sequential Search:");
-        Polynomial searchTerm = randomPolynomials.get(2); // Pick a polynomial from the list
-        System.out.println("Searching for: " + searchTerm);
-        int indexSeq = sequentialSearch(randomPolynomials, searchTerm);
-        if (indexSeq != -1) {
-            System.out.println("Found at index " + indexSeq);
-        } else {
-            System.out.println("Not found.");
-        }
+      // test the compareTo method
 
-        // Binary Search
-        System.out.println("Testing Binary Search:");
-        Polynomial searchTermBinary = randomPolynomials.get(4); // Pick another polynomial from the list
-        System.out.println("Searching for: " + searchTermBinary);
-        int indexBin = binarySearch(randomPolynomials, searchTermBinary);
-        if (indexBin != -1) {
-            System.out.println("Found at index " + indexBin);
-        } else {
-            System.out.println("Not found.");
-        }
+      System.out.println(p1.compareTo(p2));
 
-        // Test sorting algorithms
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the number of polynomials to generate: ");
-        int numPolynomials = scanner.nextInt();
+      System.out.println(p2.compareTo(p1));
 
-        // Generate an array of random polynomials
-        List<Polynomial> polynomials = new ArrayList<>();
-        for (int i = 0; i < numPolynomials; i++) {
-            polynomials.add(new Polynomial(5)); // Random polynomial of degree 5
-        }
+      System.out.println(p1.compareTo(p1));
 
-        // Display Unsorted List (for small number of objects)
-        if (numPolynomials <= 10) {
-            System.out.println("Unsorted Polynomials:");
-            for (Polynomial p : polynomials) {
-                System.out.println(p);
+      // print out the random polynomial
+      System.out.println("Random Polynomial: " + Polynomial.randomPolynomial());
+
+      // test the compareToRandom method with the random polynomials
+
+      System.out.println(Polynomial.randomPolynomial().compareToRandom(Polynomial.randomPolynomial()));
+
+      Scanner in = new Scanner(System.in);
+
+      int a = in.nextInt();
+      System.out.println("Number imputed: " + a);
+      in.close();
+
+      // create an array of all the random polynomials and print them out
+
+      Polynomial[] randomPolynomials = new Polynomial[a];
+      for (int i = 0; i < a; i++) {
+         randomPolynomials[i] = Polynomial.randomPolynomial();
+         System.out.println(randomPolynomials[i]);
+      }
+
+      // use the compareToRandom method to compare all the random polynomials
+      for (int i = 0; i < a; i++) {
+         System.out.println(Polynomial.randomPolynomial().compareToRandom(Polynomial.randomPolynomial()));
+      }
+
+      // print out an unsorted list of the random polynomials
+      System.out.println("Unsorted list of random polynomials: ");
+      for (int i = 0; i < a; i++) {
+         System.out.println(randomPolynomials[i]);
+      }
+
+      // print out the selection sorted list of random polynomials
+      selectionSort(randomPolynomials);
+      System.out.println("\nSorted list of random polynomials Using Selection Sort: ");
+      for (int i = 0; i < a; i++) {
+         System.out.println(randomPolynomials[i]);
+      }
+
+      // time the selection sort method and print out the time
+      long startTime = System.nanoTime();
+      selectionSort(randomPolynomials);
+      long endTime = System.nanoTime();
+      long duration = (endTime - startTime);
+      System.out.println("\nTime to sort using Selection Sort: " + duration + " nanoseconds");
+
+      // print out the quick sorted list of random polynomials
+      quickSort(randomPolynomials, 0, randomPolynomials.length - 1);
+      System.out.println("\nSorted list of random polynomials Using Quick Sort: ");
+      for (int i = 0; i < a; i++) {
+         System.out.println(randomPolynomials[i]);
+      }
+
+      // time the quick sort method and print out the time
+      long startTime2 = System.nanoTime();
+      quickSort(randomPolynomials, 0, randomPolynomials.length - 1);
+      long endTime2 = System.nanoTime();
+      long duration2 = (endTime2 - startTime2);
+      System.out.println("\nTime to sort using Quick Sort: " + duration2 + " nanoseconds");
+
+      // print out the polynomial with the highest degree
+      System.out
+            .println("\nPolynomial with the highest degree: " + randomPolynomials[binarySearch(randomPolynomials)]);
+
+      // time the sequential search method and print out the time
+      long startTime3 = System.nanoTime();
+      binarySearch(randomPolynomials);
+      long endTime3 = System.nanoTime();
+      long duration3 = (endTime3 - startTime3);
+      System.out.println("\nTime to search for the polynomial with the highest degree: " + duration3 + " nanoseconds");
+
+      // print out the polynomial with the lowest degree
+      System.out.println("\nPolynomial with the lowest degree: " + randomPolynomials[binarySearch(randomPolynomials)]);
+
+      // print out the binary search method and print out the time
+      long startTime4 = System.nanoTime();
+      binarySearch(randomPolynomials);
+      long endTime4 = System.nanoTime();
+      long duration4 = (endTime4 - startTime4);
+      System.out.println("\nTime to search for the polynomial with the highest degree: " + duration4 + " nanoseconds");
+
+   }
+
+   // build a selection sort method
+
+   public static void selectionSort(Polynomial[] randomPolynomials) {
+      for (int i = 0; i < randomPolynomials.length - 1; i++) {
+         int min = i;
+         for (int j = i + 1; j < randomPolynomials.length; j++) {
+            if (randomPolynomials[j].compareTo(randomPolynomials[min]) < 0) {
+               min = j;
             }
-        }
+         }
+         if (min != i) {
+            Polynomial temp = randomPolynomials[i];
+            randomPolynomials[i] = randomPolynomials[min];
+            randomPolynomials[min] = temp;
+         }
 
-        // Make a copy of the list for sorting
-        List<Polynomial> polynomialsForSelectionSort = new ArrayList<>(polynomials);
-        List<Polynomial> polynomialsForQuickSort = new ArrayList<>(polynomials);
+      }
+   }
 
-        // Sort using Selection Sort (O(n^2))
-        long startTime = System.nanoTime();
-        selectionSort(polynomialsForSelectionSort);
-        long endTime = System.nanoTime();
-        long selectionSortTime = endTime - startTime;
+   // build a quick sort method
 
-        // Display Sorted List after Selection Sort (for small number of objects)
-        if (numPolynomials <= 10) {
-            System.out.println("\nSorted Polynomials (after Selection Sort):");
-            for (Polynomial p : polynomialsForSelectionSort) {
-                System.out.println(p);
-            }
-        }
-        System.out.println("Selection Sort Time: " + selectionSortTime + " nanoseconds");
+   public static void quickSort(Polynomial[] randomPolynomials, int low, int high) {
+      if (low < high) {
+         int pi = partition(randomPolynomials, low, high);
+         quickSort(randomPolynomials, low, pi - 1);
+         quickSort(randomPolynomials, pi + 1, high);
+      }
+   }
 
-        // Sort using Quick Sort (O(n log n))
-        startTime = System.nanoTime();
-        quickSort(polynomialsForQuickSort, 0, polynomialsForQuickSort.size() - 1);
-        endTime = System.nanoTime();
-        long quickSortTime = endTime - startTime;
+   public static int partition(Polynomial[] randomPolynomials, int low, int high) {
+      Polynomial pivot = randomPolynomials[high];
+      int i = (low - 1);
+      for (int j = low; j < high; j++) {
+         if (randomPolynomials[j].compareTo(pivot) < 0) {
+            i++;
+            Polynomial temp = randomPolynomials[i];
+            randomPolynomials[i] = randomPolynomials[j];
+            randomPolynomials[j] = temp;
+         }
+      }
+      Polynomial temp = randomPolynomials[i + 1];
+      randomPolynomials[i + 1] = randomPolynomials[high];
+      randomPolynomials[high] = temp;
+      return i + 1;
+   }
 
-        // Display Sorted List after Quick Sort (for small number of objects)
-        if (numPolynomials <= 10) {
-            System.out.println("\nSorted Polynomials (after Quick Sort):");
-            for (Polynomial p : polynomialsForQuickSort) {
-                System.out.println(p);
-            }
-        }
-        System.out.println("Quick Sort Time: " + quickSortTime + " nanoseconds");
+   // build a binary search method that searches for the polynomail with the highest degree
 
-        scanner.close();
-    }
+   public static int binarySearch(Polynomial[] randomPolynomials) {
+      int low = 0;
+      int high = randomPolynomials.length - 1;
+      int max = 0;
+      while (low <= high) {
+         int mid = (low + high) / 2;
+         if (randomPolynomials[mid].compareTo(randomPolynomials[max]) > 0) {
+            max = mid;
+         }
+         if (randomPolynomials[mid].compareTo(randomPolynomials[max]) < 0) {
+            low = mid + 1;
+         } else {
+            high = mid - 1;
+         }
+      }
+      return max;
+   }
 
-    // Selection Sort method (O(n^2))
-    public static void selectionSort(List<Polynomial> list) {
-        for (int i = 0; i < list.size() - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < list.size(); j++) {
-                if (list.get(j).compareTo(list.get(minIndex)) < 0) {
-                    minIndex = j;
-                }
-            }
-            if (minIndex != i) {
-                Collections.swap(list, i, minIndex);
-            }
-        }
-    }
 
-    // Quick Sort method (O(n log n))
-    public static void quickSort(List<Polynomial> list, int low, int high) {
-        if (low < high) {
-            int partitionIndex = partition(list, low, high);
-            quickSort(list, low, partitionIndex - 1);
-            quickSort(list, partitionIndex + 1, high);
-        }
-    }
+  
 
-    // Partition method for Quick Sort
-    public static int partition(List<Polynomial> list, int low, int high) {
-        Polynomial pivot = list.get(high);
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (list.get(j).compareTo(pivot) <= 0) {
-                i++;
-                Collections.swap(list, i, j);
-            }
-        }
-        Collections.swap(list, i + 1, high);
-        return i + 1;
-    }
-
-    // Sequential Search (O(n))
-    public static int sequentialSearch(List<Polynomial> list, Polynomial target) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).compareTo(target) == 0) {
-                return i;
-            }
-        }
-        return -1; // Not found
-    }
-
-    // Binary Search (O(log n)) - assumes the list is sorted
-    public static int binarySearch(List<Polynomial> list, Polynomial target) {
-        int low = 0;
-        int high = list.size() - 1;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            int comparison = list.get(mid).compareTo(target);
-
-            if (comparison == 0) {
-                return mid; // Found the target
-            } else if (comparison < 0) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-        }
-        return -1; // Not found
-    }
 }
